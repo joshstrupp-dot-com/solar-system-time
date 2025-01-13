@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WAVE</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Add Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&family=Shizuru&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik+Puddles&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <script src="https://unpkg.com/tone"></script>
+  </head>
+  <body>
+    <!-- The canvas will be automatically added by p5.js -->
+    <!-- Include your JavaScript code -->
+    <canvas id="bgCanvas"></canvas>
+    <canvas id="terCanvas"></canvas>
+
+    <!-- Add the title and description -->
+    <div class="header-text">
+      <h1>Solar System Rhythms</h1>
+      <!-- <p>
+        Think of a day in space as the time it takes for a planet to complete
+        one full spin. On Earth, this spin gives us our familiar cycle of day
+        and night. But out there, each planet dances to its own rhythm. Some
+        whirl around so quickly that their days zip by in just a few hours,
+        while others take months to finish one spin, making their days feel like
+        epic adventures.
+      </p> -->
+    </div>
+
+    <button
+      id="muteButton"
+      style="position: absolute; top: 10px; right: 10px; z-index: 101"
+    >
+      <div class="equalizer-container">
+        <img src="equalizer.png" alt="audio" class="equalizer-icon" />
+        <div class="mute-slash"></div>
+      </div>
+    </button>
+
+    <!-- Planet Info Boxes -->
+    <div class="planet-info" id="Mercury-info">
+      <h2>Mercury</h2>
+      <p>
+        Imagine waking up and watching the sunrise, but it takes 88 Earth days!
+        On Mercury, one day is like waiting through almost three entire school
+        years for just one morning. It's as if your weekends were stretched out
+        for months. Every sunrise feels like a grand event because it doesn't
+        happen often!
+      </p>
+    </div>
+
+    <div class="planet-info" id="Venus-info">
+      <h2>Venus</h2>
+      <p>
+        Picture this: You press the snooze button, but each snooze adds 243
+        Earth days to your sleep. On Venus, a single day is longer than almost
+        its entire trip around the Sun! It's like living in a world where
+        mornings take forever to arrive, making each day feel like a slow,
+        endless movie.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Earth-info">
+      <h2>Earth</h2>
+      <p>
+        Home sweet home! Here, a day is a perfect 24 hours—just the right amount
+        of time to hang out with friends, go to school, and catch your favorite
+        TV show. It's the ideal rhythm for life, balancing work and play
+        seamlessly.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Mars-info">
+      <h2>Mars</h2>
+      <p>
+        Think of your day as a slightly longer school day, lasting 24.6 hours.
+        On Mars, mornings and nights stretch just a bit more, giving you a
+        little extra time to explore or relax. It's like having an extra five
+        minutes in your day to finish that last homework assignment.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Jupiter-info">
+      <h2>Jupiter</h2>
+      <p>
+        Imagine your day being a whirlwind, lasting only about 10 Earth hours!
+        On Jupiter, the day zooms by faster than a roller coaster ride. It's
+        like having several mini-days packed into one, where you can watch
+        multiple sunrises and sunsets in what feels like a single Earth day.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Saturn-info">
+      <h2>Saturn</h2>
+      <p>
+        Saturn's day is a speedy 10.7 hours, similar to Jupiter's but just a tad
+        longer. It's like living in a place where time flies, and you might feel
+        like you're always on the go. Each day is a quick sprint, giving you
+        bursts of activity before the next sunrise.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Uranus-info">
+      <h2>Uranus</h2>
+      <p>
+        Imagine your day being a breezy 17 Earth hours. On Uranus, time feels a
+        bit stretched, like a long afternoon hanging out with friends or
+        enjoying an extended video game session. It's enough time to do a lot,
+        but not so long that it feels exhausting.
+      </p>
+    </div>
+
+    <div class="planet-info" id="Neptune-info">
+      <h2>Neptune</h2>
+      <p>
+        Neptune offers a 16-hour day, which is shorter than Earth's but still
+        gives you plenty of daylight. It's like having a condensed day where you
+        can pack in your favorite activities without feeling rushed. Think of it
+        as a power-packed day full of energy and excitement.
+      </p>
+    </div>
+
+    <script src="wave.js"></script>
+
+    <div class="attribution">
+      A viz by me,
+      <a href="https://joshstrupp.com" target="_blank" rel="noopener noreferrer"
+        >Josh</a
+      >.
+    </div>
+  </body>
+</html>

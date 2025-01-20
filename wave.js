@@ -344,7 +344,6 @@ function setPlanetSpeed(planet) {
   const planetBpm = (86400 / planet_day_length) * earthBpm;
   Tone.Transport.bpm.value = planetBpm;
 
-  // Continue with synth setup...
   // Dispose existing loops and synths to avoid overlaps
   if (loopA) {
     loopA.stop();
@@ -361,30 +360,70 @@ function setPlanetSpeed(planet) {
     synthB.dispose();
   }
 
-  // Create new synths
-  synthA = new Tone.FMSynth().toDestination();
-  synthB = new Tone.AMSynth().toDestination();
+  // Special case for Mercury and Venus: single low oscillating tone
+  if (planet === "Mercury" || planet === "Venus") {
+    synthA = new Tone.MonoSynth({
+      oscillator: {
+        type: "sawtooth8",
+      },
+      envelope: {
+        attack: 0.01,
+        decay: 0.1,
+        sustain: 0.8,
+        release: 0.1,
+      },
+      filterEnvelope: {
+        attack: 0.01,
+        decay: 0.1,
+        sustain: 0.8,
+        release: 0.1,
+        baseFrequency: 100,
+        octaves: 1.5,
+      },
+    }).toDestination();
 
-  // Set the volume to 20%
-  synthA.volume.value = -12; // -12 dB is approximately 20% volume
-  synthB.volume.value = -12; // -12 dB is approximately 20% volume
+    // Much lower volume
+    synthA.volume.value = -18;
 
-  // Function to convert currentWaves to a usable frequency
-  function getFrequencyFromWaves(waves) {
-    return Tone.Frequency(waves * 1 + 15, "midi").toFrequency();
+    // Different frequencies for Mercury and Venus
+    const frequency = planet === "Mercury" ? 35 : 30;
+
+    // Trigger immediately
+    synthA.triggerAttackRelease(frequency, "8n");
+
+    // Consistent rhythm
+    loopA = new Tone.Loop((time) => {
+      synthA.triggerAttackRelease(frequency, "8n", time);
+    }, "8n").start(0);
+
+    // No second synth needed for Mercury/Venus
+    synthB = null;
+    loopB = null;
+  } else {
+    // Original synth setup for other planets
+    synthA = new Tone.FMSynth().toDestination();
+    synthB = new Tone.AMSynth().toDestination();
+
+    // Set the volume to 20%
+    synthA.volume.value = -12;
+    synthB.volume.value = -12;
+
+    // Original frequency calculation
+    function getFrequencyFromWaves(waves) {
+      return Tone.Frequency(waves * 1 + 15, "midi").toFrequency();
+    }
+
+    // Original loop patterns for other planets
+    loopA = new Tone.Loop((time) => {
+      const frequency = getFrequencyFromWaves(currentWaves);
+      synthA.triggerAttackRelease(frequency, "8n", time);
+    }, "2n").start(0);
+
+    loopB = new Tone.Loop((time) => {
+      const frequency = getFrequencyFromWaves(currentWaves + 7);
+      synthB.triggerAttackRelease(frequency, "8n", time);
+    }, "2n").start("8n");
   }
-
-  // Play a note every quarter-note
-  loopA = new Tone.Loop((time) => {
-    const frequency = getFrequencyFromWaves(currentWaves);
-    synthA.triggerAttackRelease(frequency, "8n", time);
-  }, "2n").start(0);
-
-  // Play another note every off quarter-note
-  loopB = new Tone.Loop((time) => {
-    const frequency = getFrequencyFromWaves(currentWaves + 7);
-    synthB.triggerAttackRelease(frequency, "8n", time);
-  }, "2n").start("8n");
 
   // Start the transport if it's not already started
   if (Tone.Transport.state !== "started") {

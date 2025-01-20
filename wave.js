@@ -210,11 +210,29 @@ let isMuted = true; // Start muted
 
 // Add after the setup() function
 function setupMuteButton() {
+  const playButton = document.getElementById("playButton");
   const muteButton = document.getElementById("muteButton");
   const muteSlash = muteButton.querySelector(".mute-slash");
 
   // Set initial state
   Tone.Destination.mute = true;
+
+  playButton.addEventListener("click", async () => {
+    await Tone.start();
+    Tone.Transport.start();
+
+    // Initialize audio with Earth's settings
+    setPlanetSpeed(planetSelect.value());
+
+    // Switch to mute button
+    playButton.style.display = "none";
+    muteButton.style.display = "block";
+
+    // Start unmuted
+    isMuted = false;
+    Tone.Destination.mute = false;
+    muteSlash.style.display = "none";
+  });
 
   muteButton.addEventListener("click", () => {
     isMuted = !isMuted;
